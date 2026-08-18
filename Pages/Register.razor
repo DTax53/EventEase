@@ -1,0 +1,60 @@
+@page "/register/{EventId:int}"
+@using System.ComponentModel.DataAnnotations
+@using EventEase.Services
+@inject AttendanceService Attendance
+@inject UserSession Session
+
+
+<h2>Register for Event</h2>
+
+<EditForm Model="@registration" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label>Name:</label>
+        <InputText @bind-Value="registration.Name" />
+        <ValidationMessage For="@(() => registration.Name)" />
+    </div>
+
+    <div>
+        <label>Email:</label>
+        <InputText @bind-Value="registration.Email" />
+        <ValidationMessage For="@(() => registration.Email)" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Submit</button>
+</EditForm>
+
+@if (Session.IsRegistered && Session.RegisteredEventId == EventId)
+{
+    <p class="text-success">You are registered for this event!</p>
+}
+
+@code {
+    [Parameter] public int EventId { get; set; }
+
+    private RegistrationModel registration = new RegistrationModel();
+
+    private void HandleValidSubmit()
+    {
+        Session.UserName = registration.Name;
+        Session.UserEmail = registration.Email;
+        Session.IsRegistered = true;
+        Session.RegisteredEventId = EventId;
+
+        Attendance.RegisterUser(EventId, registration.Name, registration.Email);
+    }
+
+    // Pages/Register.razor
+public class RegistrationModel
+{
+    [Required(ErrorMessage = "Name is required")]
+    public string Name { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Email is required")]
+    [EmailAddress(ErrorMessage = "Invalid email format")]
+    public string Email { get; set; } = string.Empty;
+}
+
+}

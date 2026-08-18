@@ -1,0 +1,33 @@
+@page "/events"
+@using EventEase.Components
+@using EventEase.Services
+
+<h2>Upcoming Events</h2>
+
+<Virtualize Items="@events" ItemSize="50">
+    <ItemContent Context="ev">
+        <EventCard EventId="@ev.EventId"
+                   EventName="@ev.EventName"
+                   EventDate="@ev.EventDate"
+                   EventLocation="@ev.EventLocation" />
+    </ItemContent>
+</Virtualize>
+
+@code {
+    private List<Event> events = new List<Event>
+    {
+        new Event { EventId = 1, EventName = "Tech Conference 2026", EventDate = DateTime.Now.AddDays(10), EventLocation = "VIT Vellore" },
+        new Event { EventId = 2, EventName = "Corporate Gala", EventDate = DateTime.Now.AddDays(20), EventLocation = "Chennai" },
+        new Event { EventId = 3, EventName = "Startup Meetup", EventDate = DateTime.Now.AddDays(30), EventLocation = "Bangalore" }
+    };
+
+    // Pages/EventList.razor
+public class Event
+{
+    public int EventId { get; set; }
+    public string EventName { get; set; } = string.Empty;
+    public DateTime EventDate { get; set; }
+    public string EventLocation { get; set; } = string.Empty;
+}
+
+}

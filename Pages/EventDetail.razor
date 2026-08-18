@@ -1,0 +1,24 @@
+@page "/event/{EventId:int}"
+@using EventEase.Services
+@inject AttendanceService Attendance
+@inject UserSession Session
+
+<h2>Event Details</h2>
+<p>Showing details for event with ID: @EventId</p>
+
+<NavLink class="btn btn-success" href="@($"/register/{EventId}")">
+    Register Now
+</NavLink>
+
+
+<h3>Registered Attendees</h3>
+<ul>
+    @foreach (var attendee in Attendance.GetAttendance().Where(a => a.EventId == EventId))
+    {
+        <li>@attendee.UserName (@attendee.UserEmail)</li>
+    }
+</ul>
+
+@code {
+    [Parameter] public int EventId { get; set; }
+}

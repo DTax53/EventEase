@@ -1,0 +1,24 @@
+@inherits LayoutComponentBase
+
+<div class="main-layout">
+    <!-- Header -->
+    <header class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <h1 class="navbar-brand">EventEase</h1>
+            <nav>
+                <NavLink href="/events" class="nav-link" Match="NavLinkMatch.All">Events</NavLink>
+                <NavLink href="/error" class="nav-link">Error Page</NavLink>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Body -->
+    <main class="container mt-4">
+        @Body
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer bg-light text-center mt-4 p-3">
+        <p>&copy; 2026 EventEase. All rights reserved.</p>
+    </footer>
+</div>

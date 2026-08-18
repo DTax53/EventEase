@@ -1,0 +1,31 @@
+@using Microsoft.AspNetCore.Components
+@namespace EventEase.Components
+
+
+<div class="event-card">
+    <h3>@EventName</h3>
+    <p><strong>Date:</strong> @EventDate.ToShortDateString()</p>
+    <p><strong>Location:</strong> @EventLocation</p>
+    <NavLink class="btn btn-primary" href="@($"/event/{EventId}")">
+    View Details
+    </NavLink>
+</div>
+
+@code {
+    [Parameter] public string EventName { get; set; } = "Unnamed Event";
+    [Parameter] public DateTime EventDate { get; set; } = DateTime.MinValue;
+    [Parameter] public string EventLocation { get; set; } = "Unknown Location";
+    [Parameter] public int EventId { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (string.IsNullOrWhiteSpace(EventName))
+            EventName = "Unnamed Event";
+
+        if (EventDate == DateTime.MinValue)
+            EventDate = DateTime.Now;
+
+        if (string.IsNullOrWhiteSpace(EventLocation))
+            EventLocation = "Unknown Location";
+    }
+}
